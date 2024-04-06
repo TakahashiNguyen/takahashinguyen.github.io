@@ -44,10 +44,10 @@
           scriptTags.forEach((scriptTag) => {
             var tag = document.createElement("script");
             tag.src = modifyUrl(scriptTag.src);
-            document.head.appendChild(tag);
-            scriptDOMContentLoaded().catch((error) => {
-              console.info(error);
+            tag.addEventListener("load", () => {
+              scriptDOMContentLoaded();
             });
+            document.head.appendChild(tag);
           });
         }
 
