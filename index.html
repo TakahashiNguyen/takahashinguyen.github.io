@@ -21,7 +21,6 @@
       />
     </head>
     <body>
-      <div id="content"></div>
       <script>
         function getBodyContent(htmlString) {
           const parser = new DOMParser();
@@ -35,7 +34,10 @@
         fetch("TakahashiNguyen/index.html")
           .then((response) => response.text())
           .then((data) => {
-            document.getElementById("content").innerHTML = getBodyContent(data);
+            const textArea = document.createElement("textarea");
+            textArea.textContent = getBodyContent(data);
+
+            document.body.appendChild(textArea);
           })
           .catch((error) => {
             console.error("Error fetching content:", error);
