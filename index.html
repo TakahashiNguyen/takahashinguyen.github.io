@@ -24,13 +24,26 @@
     >
       <div id="content" class="parent"></div>
       <script>
+        function modifyUrl(urlString) {
+          const parts = urlString.split("/"); // Split the URL into parts
+
+          if (!parts.includes("github.io/")) {
+            return urlString;
+          }
+
+          const index = parts.indexOf("github.io/"); // Find the index of 'github.io/'
+          parts.splice(index + 1, 0, "TakahashiNguyen/"); // Insert 'TakahashiNguyen/' after 'github.io/'
+
+          return parts.join("/"); // Join the modified parts back into a URL string
+        }
+
         function getBodyContent(htmlString) {
           const parser = new DOMParser();
           const doc = parser.parseFromString(htmlString, "text/html");
           const bodyElement = doc.body;
-          const bodyContent = bodyElement.innerHTML;
-
-          return bodyContent;
+          bodyElement.children.forEach((child) => {
+            document.body.appendChild(child);
+          });
         }
 
         function getScriptTagsFromString(htmlString) {
@@ -39,7 +52,7 @@
           const scriptTags = Array.from(doc.querySelectorAll("script")); // Select all script tags
           scriptTags.forEach((scriptTag) => {
             var tag = document.createElement("script");
-            tag.src = scriptTag.src;
+            tag.src = modifyUrl(scriptTag.src);
             document.head.appendChild(tag);
           });
         }
@@ -47,7 +60,7 @@
         fetch("TakahashiNguyen/index.html")
           .then((response) => response.text())
           .then((data) => {
-            document.getElementById("content").innerHTML = getBodyContent(data);
+            getBodyContent(data);
             getScriptTagsFromString(data);
           })
           .catch((error) => {
