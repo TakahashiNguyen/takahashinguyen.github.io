@@ -37,10 +37,27 @@
           return bodyContent;
         }
 
+        function getScriptTagsFromString(htmlString) {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(htmlString, "text/html"); // Parse the string as HTML
+          const scriptTags = Array.from(doc.querySelectorAll("script")); // Select all script tags
+          return scriptTags.map((scriptTag) => scriptTag.outerHTML); // Extract outerHTML of each script tag
+        }
+
+        function addScriptTagsToPage(scriptTagsArray) {
+          scriptTagsArray.forEach((scriptTagString) => {
+            const scriptElement = document.createElement("script");
+            scriptElement.innerHTML = scriptTagString;
+
+            document.body.appendChild(scriptElement);
+          });
+        }
+
         fetch("TakahashiNguyen/index.html")
           .then((response) => response.text())
           .then((data) => {
             document.getElementById("content").innerHTML = getBodyContent(data);
+            addScriptTagsToPage(getScriptTagsFromString(data));
           })
           .catch((error) => {
             console.error("Error fetching content:", error);
