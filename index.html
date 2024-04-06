@@ -37,12 +37,10 @@
           const parser = new DOMParser();
           const doc = parser.parseFromString(htmlString, "text/html"); // Parse the string as HTML
           const scriptTags = Array.from(doc.querySelectorAll("script")); // Select all script tags
-          return scriptTags.map((scriptTag) => scriptTag); // Extract outerHTML of each script tag
-        }
-
-        function addScriptTagsToPage(scriptTagsArray) {
-          scriptTagsArray.forEach((scriptTagString) => {
-            document.body.appendChild(scriptTagString);
+          scriptTags.forEach((scriptTag) => {
+            var tag = document.createElement("script");
+            tag.src = scriptTag.src;
+            document.head.appendChild(tag);
           });
         }
 
