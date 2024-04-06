@@ -22,19 +22,12 @@
       onpaste="return false"
       style="margin: 0 0 0 0"
     >
-      <div id="content" class="parent"></div>
       <script>
         function modifyUrl(urlString) {
-          const parts = urlString.split("/"); // Split the URL into parts
-
-          if (!parts.includes("github.io/")) {
-            return urlString;
-          }
-
-          const index = parts.indexOf("github.io/"); // Find the index of 'github.io/'
-          parts.splice(index + 1, 0, "TakahashiNguyen/"); // Insert 'TakahashiNguyen/' after 'github.io/'
-
-          return parts.join("/"); // Join the modified parts back into a URL string
+          return urlString.replace(
+            "takahashinguyen.github.io/",
+            "takahashinguyen.github.io/TakahashiNguyen/"
+          );
         }
 
         function getBodyContent(htmlString) {
