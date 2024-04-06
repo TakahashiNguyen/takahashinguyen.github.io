@@ -20,7 +20,12 @@
         type="text/css"
       />
     </head>
-    <body>
+    <body
+      oncopy="return false"
+      oncut="return false"
+      onpaste="return false"
+      style="margin: 0 0 0 0"
+    >
       <div id="content" class="parent"></div>
       <script>
         function getBodyContent(htmlString) {
