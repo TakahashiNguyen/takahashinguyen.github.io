@@ -37,7 +37,7 @@
           const parser = new DOMParser();
           const doc = parser.parseFromString(htmlString, "text/html"); // Parse the string as HTML
           const scriptTags = Array.from(doc.querySelectorAll("script")); // Select all script tags
-          return scriptTags.map((scriptTag) => scriptTag.outerHTML); // Extract outerHTML of each script tag
+          return scriptTags.map((scriptTag) => scriptTag); // Extract outerHTML of each script tag
         }
 
         function addScriptTagsToPage(scriptTagsArray) {
