@@ -15,7 +15,7 @@
         href="TakahashiNguyen/.css/style.css"
         type="text/css"
       />
-      <script defer>
+      <script>
         function modifyUrl(urlString) {
           return urlString.replace(
             "takahashinguyen.github.io/",
@@ -45,6 +45,9 @@
             var tag = document.createElement("script");
             tag.src = modifyUrl(scriptTag.src);
             document.head.appendChild(tag);
+            scriptDOMContentLoaded().catch((error) => {
+              console.info(error);
+            });
           });
         }
 
