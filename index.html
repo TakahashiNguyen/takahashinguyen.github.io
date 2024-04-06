@@ -23,10 +23,19 @@
     <body>
       <div id="content"></div>
       <script>
+        function getBodyContent(htmlString) {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(htmlString, "text/html");
+          const bodyElement = doc.body;
+          const bodyContent = bodyElement.innerHTML;
+
+          return bodyContent;
+        }
+
         fetch("TakahashiNguyen/index.html")
           .then((response) => response.text())
           .then((data) => {
-            document.getElementById("content").innerHTML = data;
+            document.getElementById("content").innerHTML = getBodyContent(data);
           })
           .catch((error) => {
             console.error("Error fetching content:", error);
