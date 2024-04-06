@@ -41,9 +41,14 @@
           const parser = new DOMParser();
           const doc = parser.parseFromString(htmlString, "text/html");
           const bodyElement = doc.body;
-          bodyElement.children.forEach((child) => {
-            document.body.appendChild(child);
-          });
+
+          // Filter child elements (excluding text nodes and comments)
+          const childElements = Array.from(bodyElement.childNodes).filter(
+            (child) => child.nodeType === Node.ELEMENT_NODE
+          );
+
+          // Append child elements to the current document's body
+          childElements.forEach((child) => document.body.appendChild(child));
         }
 
         function getScriptTagsFromString(htmlString) {
