@@ -42,10 +42,7 @@
 
         function addScriptTagsToPage(scriptTagsArray) {
           scriptTagsArray.forEach((scriptTagString) => {
-            const scriptElement = document.createElement("script");
-            scriptElement.innerHTML = scriptTagString;
-
-            document.body.appendChild(scriptElement);
+            document.body.appendChild(scriptTagString);
           });
         }
 
