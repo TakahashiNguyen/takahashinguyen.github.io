@@ -32065,7 +32065,7 @@
           c ||
             ((o = [
               "\n  /*\n    Reset the box-sizing\n\n    Heads up! This reset may cause conflicts with some third-party widgets.\n    For recommendations on resolving such conflicts, see\n    http://getbootstrap.com/getting-started/#third-box-sizing\n  */\n\n  * {\n    box-sizing: border-box;\n  }\n\n  *::before,\n  *::after {\n    box-sizing: border-box;\n  }\n\n  /* Body reset */\n\n  body {\n    margin: 0;\n  }\n\n  body, input, textarea, button {\n    font-family: var(--font-family, ",
-              "), Helvetica, Arial, sans-serif;\n  }\n\n  html,\n  body {\n    height: 100%;\n  }\n",
+              "), Helvetica, Arial, sans-serif;\n  }\n\n ",
             ]),
             a || (a = o.slice(0)),
             (c = Object.freeze(
