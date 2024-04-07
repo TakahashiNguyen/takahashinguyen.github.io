@@ -7700,7 +7700,7 @@
       ((i = a || (a = {}))[(i.INITIAL = 0)] = "INITIAL"),
         (i[(i.BEGIN_NEXT_TICK = 1)] = "BEGIN_NEXT_TICK"),
         (i[(i.ANIMATE = 2)] = "ANIMATE");
-      var PreviewPlayButton 
+      var PreviewPlayButton = function () {};
     },
     3369: function (e, n, t) {
       "use strict";
