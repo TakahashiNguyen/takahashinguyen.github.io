@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script>
+    <meta charset="utf-8" />
+  </head>
+  <body
+    oncopy="return false"
+    oncut="return false"
+    onpaste="return false"
+    style="margin: 0 0 0 0"
+  >
+    <script defer>
       function modifyUrl(urlString) {
         try {
           if (urlString.indexOf("takahashinguyen.github.io") !== -1)
@@ -32,11 +40,19 @@
         childHeadElements.forEach((child) => {
           child.href = modifyUrl(child.href);
           if (child instanceof HTMLScriptElement) {
-            var tag = document.createElement("script");
-            tag.src = modifyUrl(child.src);
-            tag.addEventListener("load", () => {
-              scriptDOMContentLoaded();
-            });
+            var tagURL = modifyUrl(child.src);
+            const tag = document.createElement("script");
+            fetch(tagURL)
+              .then((response) => response.text())
+              .then((data) => {
+                tag.textContent = data;
+                if (data.indexOf("scriptDOMContentLoaded") !== -1) {
+                  scriptDOMContentLoaded()
+                }
+              })
+              .catch((error) => {
+                tag.src = tagURL;
+              });
             document.head.appendChild(tag);
           } else document.head.appendChild(child);
         });
@@ -51,11 +67,5 @@
           console.error("Error fetching content:", error);
         });
     </script>
-  </head>
-  <body
-    oncopy="return false"
-    oncut="return false"
-    onpaste="return false"
-    style="margin: 0 0 0 0"
-  ></body>
+  </body>
 </html>
