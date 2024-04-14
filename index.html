@@ -35,12 +35,6 @@
             if (child instanceof HTMLScriptElement) {
               if (child.src !== "") {
                 var tagURL = modifyUrl(child.src);
-                if (child.src.indexOf("tailwindcss.com") !== -1) {
-                  tag.addEventListener("load", function () {
-                    tailwindConfig();
-                  });
-                }
-
                 fetch(tagURL)
                   .then((response) => response.text())
                   .then((data) => {
