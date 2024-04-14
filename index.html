@@ -2,13 +2,6 @@
 <html>
   <head>
     <meta charset="utf-8" />
-  </head>
-  <body
-    oncopy="return false"
-    oncut="return false"
-    onpaste="return false"
-    style="margin: 0 0 0 0"
-  >
     <script defer>
       function modifyUrl(urlString) {
         try {
@@ -26,36 +19,47 @@
       function getBodyContent(htmlString) {
         const parser = new DOMParser();
         const doc = parser.parseFromString(htmlString, "text/html");
-        const bodyElement = doc.body;
-        const headElement = doc.head;
+        document.querySelector("body").className =
+          doc.querySelector("body").className;
 
-        const childBodyElements = Array.from(bodyElement.childNodes).filter(
-          (child) => child.nodeType === Node.ELEMENT_NODE
-        );
-        const childHeadElements = Array.from(headElement.childNodes).filter(
-          (child) => child.nodeType === Node.ELEMENT_NODE
-        );
+        Array.from(doc.body.childNodes)
+          .filter((child) => child.nodeType === Node.ELEMENT_NODE)
+          .forEach((child) => document.body.appendChild(child));
+        Array.from(doc.head.childNodes)
+          .filter((child) => child.nodeType === Node.ELEMENT_NODE)
+          .forEach((child) => {
+            var tag = document.createElement("script");
+            if (child instanceof HTMLLinkElement)
+              child.href = modifyUrl(child.href);
 
-        childBodyElements.forEach((child) => document.body.appendChild(child));
-        childHeadElements.forEach((child) => {
-          child.href = modifyUrl(child.href);
-          if (child instanceof HTMLScriptElement) {
-            var tagURL = modifyUrl(child.src);
-            const tag = document.createElement("script");
-            fetch(tagURL)
-              .then((response) => response.text())
-              .then((data) => {
-                tag.textContent = data;
-                if (data.indexOf("scriptDOMContentLoaded") !== -1) {
-                  scriptDOMContentLoaded()
+            if (child instanceof HTMLScriptElement) {
+              if (child.src !== "") {
+                var tagURL = modifyUrl(child.src);
+                if (child.src.indexOf("tailwindcss.com") !== -1) {
+                  tag.addEventListener("load", function () {
+                    tailwindConfig();
+                  });
                 }
-              })
-              .catch((error) => {
-                tag.src = tagURL;
-              });
+
+                fetch(tagURL)
+                  .then((response) => response.text())
+                  .then((data) => {
+                    tag.textContent = data;
+                    if (data.indexOf("scriptDOMContentLoaded") !== -1) {
+                      scriptDOMContentLoaded();
+                    }
+                  })
+                  .catch((error) => {
+                    tag.src = tagURL;
+                  });
+              } else {
+                tag.textContent = child.innerText;
+              }
+            } else {
+              tag = child;
+            }
             document.head.appendChild(tag);
-          } else document.head.appendChild(child);
-        });
+          });
       }
 
       fetch("TakahashiNguyen/index.html")
@@ -67,5 +71,6 @@
           console.error("Error fetching content:", error);
         });
     </script>
-  </body>
+  </head>
+  <body></body>
 </html>
