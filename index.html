@@ -1,58 +1,26 @@
 <!DOCTYPE html>
+<!--Âm dương-->
 <html>
   <head>
     <meta charset="utf-8" />
-    <script defer>
-      function modifyUrl(urlString) {
-        try {
-          if (urlString.indexOf("takahashinguyen.github.io") !== -1)
-            return urlString.replace(
-              "takahashinguyen.github.io/",
-              "takahashinguyen.github.io/TakahashiNguyen/"
-            );
-          else return urlString.replace("3002/", "3002/TakahashiNguyen/");
-        } catch (error) {
-          return urlString;
-        }
-      }
-
+    <script>
       function getBodyContent(htmlString) {
         const parser = new DOMParser();
         const doc = parser.parseFromString(htmlString, "text/html");
         document.querySelector("body").className =
           doc.querySelector("body").className;
 
-        Array.from(doc.body.childNodes)
-          .filter((child) => child.nodeType === Node.ELEMENT_NODE)
-          .forEach((child) => document.body.appendChild(child));
         Array.from(doc.head.childNodes)
           .filter((child) => child.nodeType === Node.ELEMENT_NODE)
           .forEach((child) => {
-            var tag = document.createElement("script");
-            if (child instanceof HTMLLinkElement)
-              child.href = modifyUrl(child.href);
-
-            if (child instanceof HTMLScriptElement) {
-              if (child.src !== "") {
-                var tagURL = modifyUrl(child.src);
-                fetch(tagURL)
-                  .then((response) => response.text())
-                  .then((data) => {
-                    tag.textContent = data;
-                    if (data.indexOf("scriptDOMContentLoaded") !== -1) {
-                      scriptDOMContentLoaded();
-                    }
-                  })
-                  .catch((error) => {
-                    tag.src = tagURL;
-                  });
-              } else {
-                tag.textContent = child.innerText;
-              }
-            } else {
-              tag = child;
+            if (
+              !(
+                child instanceof HTMLScriptElement ||
+                child instanceof HTMLLinkElement
+              )
+            ) {
+              document.head.appendChild(child);
             }
-            document.head.appendChild(tag);
           });
       }
 
@@ -66,5 +34,18 @@
         });
     </script>
   </head>
-  <body></body>
+  <body
+    style="height: 100vh; width: 100%; margin: 0; padding: 0; overflow: hidden"
+  >
+    <iframe
+      src="TakahashiNguyen/index.html"
+      name="targetframe"
+      allowTransparency="true"
+      scrolling="no"
+      frameborder="0"
+      title="index.html"
+      style="height: 100%; width: 100%"
+    >
+    </iframe>
+  </body>
 </html>
